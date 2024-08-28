@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Order, type: :model do
-  subject { Order.new(product_name: "Tate's Cookies", product_count: 10, customer_id: "1")}
+  subject { Order.new( product_name: "gears", product_count: 7, customer: FactoryBot.create(:customer))}
   it "is valid with valid attributes" do
     expect(subject).to be_valid
   end
@@ -21,9 +21,11 @@ RSpec.describe Order, type: :model do
     subject.customer_id = nil
     expect(subject).to_not be_valid
   end
-  it "is not valid with a non-existent customer" do
-    # Assuming there's a Customer model and a valid customer_id should exist
-    allow(Customer).to receive(:find_by).with(id: subject.customer_id).and_return(nil)
-    expect(subject).to_not be_valid
+  context "when created with a non-existent customer" do
+    it "is not valid" do
+      order = Order.new(product_name: "gears", product_count: 7, customer_id: 1)
+      expect(order).to_not be_valid
+      expect(order.errors[:customer]).to include("must exist")
+    end
   end
 end

@@ -8,7 +8,11 @@ class OrdersController < ApplicationController
 
   # GET /orders/1 or /orders/1.json
   def show
+    @order = Order.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to orders_path, alert: "Order not found."
   end
+  
 
   # GET /orders/new
   def new
@@ -21,12 +25,20 @@ class OrdersController < ApplicationController
 
   # POST /orders or /orders.json
   def create
-    @customer = Customer.find(params[:order][:customer_id])
+    @customer = Customer.find(params[:order][:customer_id]) rescue nil
+
+    if @customer.nil?
+      flash[:alert] = "Customer not found."
+      render :new, status: :unprocessable_entity
+      return
+    end
+    
     @order = @customer.orders.new(order_params)
+    
 
     respond_to do |format|
       if @order.save
-        format.html { redirect_to customer_url(@customer), notice: "Order was successfully created." }
+        format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
         format.json { render :show, status: :created, location: @order }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -65,7 +77,11 @@ class OrdersController < ApplicationController
     end
 
     def set_order
-      @order = Order.find(params[:id])
+      @order = Order.find_by(id: params[:id])
+      unless @order
+        flash[:alert] = "Order not found."
+        redirect_to orders_path
+      end
     end
 
     # Only allow a list of trusted parameters through.
