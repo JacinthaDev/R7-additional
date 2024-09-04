@@ -1,17 +1,14 @@
-<p style="color: green"><%= notice %></p>
-
 <%= render @customer %>
-
-<p style="color: green"><%= notice %></p>
 
 <h1>Orders</h1>
 
 <table>
   <thead>
-  <tr>
-    <th>Title</th>
-    <th colspan="3"></th>
-  </tr>
+    <tr>
+      <th>Product Name</th>
+      <th>Product Count</th>
+      <th colspan="2"></th>
+    </tr>
   </thead>
 
   <tbody>
@@ -20,7 +17,12 @@
         <td><%= order.product_name %></td>
         <td><%= order.product_count %></td>
         <td><%= link_to "Show this order", order %></td>
-        <td><%= button_to "Destroy this order", order, method: :delete, data: { turbo_confirm: "Are you sure?"} %></td>
+        <td>
+          <%= link_to '#', class: 'btn btn-danger', data: { bs_toggle: 'modal', bs_target: "#myModal-#{order.id}" } do %>
+            <i class="fas fa-trash"></i> Delete
+          <% end %>
+          <%= render 'orders/delete_modal', order: order %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -28,16 +30,11 @@
 
 <br>
 
-<%# link_to 'New Post', new_post_path %>
-
-
-
-
-
-
 <div>
   <%= link_to "Edit this customer", edit_customer_path(@customer) %> |
   <%= link_to "Back to customers", customers_path %>
-
-  <%= button_to "Destroy this customer", @customer, method: :delete %>
+  
+  <%= link_to '#', class: 'btn btn-danger', data: { bs_toggle: 'modal', bs_target: "#myModal-<%= @customer.id %>" } do %>
+    <i class="fas fa-trash"></i> Delete Customer
+  <% end %>
 </div>
