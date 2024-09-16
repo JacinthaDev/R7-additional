@@ -29,6 +29,7 @@ RSpec.describe "CustomersControllers", type: :request do
     it "renders the :edit template" do
       customer = FactoryBot.create(:customer)
       get edit_customer_path(customer.id)
+      #you have to get for show, edit, new, index. Patches are used for update
       expect(response).to render_template(:edit)
     end
   end
@@ -38,6 +39,7 @@ RSpec.describe "CustomersControllers", type: :request do
       expect { post customers_path, params: {customer: customer_attributes}
     }.to change(Customer, :count)
       expect(response).to redirect_to customer_path(id: Customer.last.id)
+      #Customer with a capital C because we are referring to the Customer table in the database. We want the id of the last entry that was saved to the database.
     end
   end
   describe "post customers_path with invalid data" do

@@ -17,3 +17,17 @@ end
 
     The redirect_to statement puts up the index page again, so that the user does not see that other error page.
 
+
+
+LESSON 9
+
+bin/rails generate model Order product_name:string product_count:integer customer:references
+
+> customer:references creates a customer_id column
+
+> in the above line of code customer:references will generate "t.references :customer, null: false, foreign_key: true" in the migration file which does the following:
+
+
+"t.references :customer" will be translated into "t.integer :customer_id" in a migration file
+If you include foreign_key: true, Rails also adds a foreign key constraint to this column, which ensures referential integrity. This means that the customer_id column in the orders table must correspond to an existing id in the customers table.
+
