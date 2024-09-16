@@ -57,7 +57,7 @@ class CustomersController < ApplicationController
       @customer.destroy
       flash.notice = "The customer record was successfully deleted."
     rescue ActiveRecord::InvalidForeignKey
-      flash.notice = "That customer record could not be deleted, because the customer has orders."
+      flash[:alert] = "That customer record could not be deleted, because the customer has orders."
     end
 
     respond_to do |format|
