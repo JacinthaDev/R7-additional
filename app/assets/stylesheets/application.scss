@@ -1,3 +1,6 @@
+@import "bootstrap";
+@import "font-awesome";
+
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -16,4 +19,19 @@
 
 .my_alert {
     color: red;
+}
+
+:root {
+    --bs-body-bg: #e7a3f0;
+}
+
+.banner-background {
+    background-image: url('s-l1600.jpeg');
+    background-size: cover;
+    font-family: 'NerkoOne';
+}
+
+@font-face {
+    font-family: 'NerkoOne';
+    src: url('NerkoOne-regular.ttf');
 }

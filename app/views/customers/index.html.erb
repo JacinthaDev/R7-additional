@@ -1,14 +1,62 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Customers</h1>
-
-<div id="customers">
-  <% @customers.each do |customer| %>
-    <%= render customer %>
-    <p>
-      <%= link_to "Show this customer", customer %>
-    </p>
-  <% end %>
+<div class="mt-4 p-5 bg-primary text-black rounded banner-background">
+  <h1>Customers</h1>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 bg-light">
+          <li class="nav-item dropdown">
+            <%= link_to 'Customers', customers_path, class: 'nav-link dropdown-toggle', id: 'customersDropdown', role: 'button', data: { bs_toggle: 'dropdown' }, aria: { expanded: 'false' } %>
+            <ul class="dropdown-menu" aria-labelledby="customersDropdown">
+              <li><%= link_to 'View All Customers', customers_path, class: 'dropdown-item' %></li>
+              <li><%= link_to 'Action 1', '#', class: 'dropdown-item' %></li>
+              <li><%= link_to 'Action 2', '#', class: 'dropdown-item' %></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <button class="nav-link dropdown-toggle btn btn-light" type="button" id="ordersDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              Orders
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="ordersDropdown">
+              <li><%= link_to 'View All Orders', orders_path, class: 'dropdown-item' %></li>
+              <li><%= link_to 'Action 1', '#', class: 'dropdown-item' %></li>
+              <li><%= link_to 'Action 2', '#', class: 'dropdown-item' %></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </div>
 
-<%= link_to "New customer", new_customer_path %>
+<div class="container mt-4">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Full Name</th>
+        <th>Number of Orders</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customers.each do |customer| %>
+        <tr>
+          <td><%= customer.full_name %></td>
+          <td><%= customer.orders.count %></td>
+          <td>
+            <%= link_to 'Show', customer, class: 'btn btn-primary me-4' %>
+            <%= link_to 'Edit', edit_customer_path(customer), class: 'btn btn-primary me-4' %>
+            <%= link_to '#', class: 'btn btn-danger', data: { bs_toggle: 'modal', bs_target: "#myModal-#{customer.id}" } do %>
+              <i class="fas fa-trash"></i> Delete
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div>
+  <%= link_to "New customer", new_customer_path, class: 'btn btn-primary' %>
+</div>

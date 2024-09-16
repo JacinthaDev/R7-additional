@@ -2,13 +2,26 @@
 
 <h1>Orders</h1>
 
-<div id="orders">
+<div class="container-fluid row">
   <% @orders.each do |order| %>
-    <%= render order %>
-    <p>
-      <%= link_to "Show this order", order %>
-    </p>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+      <div class="card border border-2 border-success p-1 mt-3" style="width: 18rem;">
+        <div class="card-header">
+          <h5 class="card-title"><%= order.product_name %></h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Quantity: <%= order.product_count %></p>
+          <p class="card-text">Customer: <%= order.customer.full_name %></p>
+        </div>
+        <div class="card-footer">
+          <%= link_to 'Show', order, class: 'btn btn-primary btn-sm' %>
+          <%= link_to 'Edit', edit_order_path(order), class: 'btn btn-primary btn-sm' %>
+          <%= link_to 'Delete', order, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+        </div>
+      </div>
+    </div>
   <% end %>
+  <div class="container mt-4">
+    <%= link_to "New order", new_order_path, class: 'btn btn-primary' %>
+  </div>
 </div>
-
-<%= link_to "New order", new_order_path %>
